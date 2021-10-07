@@ -2,7 +2,6 @@
 
 # dependencies
 /node_modules
-/not-commit
 /.pnp
 .pnp.js
 
