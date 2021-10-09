@@ -1,25 +1,43 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 import Note from "./Note.jsx";
-import notes from "../notes.js";
-
-
+import CreateArea from "./CreateArea";
 
 function App() {
+  const [notes, setNotes] = React.useState([]);
+
+  function addNote(newNote) {
+    setNotes(prevNotes => {
+      return [...prevNotes, newNote];
+    });
+  }
+
+  function deleteNote(id) {
+    setNotes(prevNotes => {
+      return prevNotes.filter((noteItem, index) => {
+        return index !== id;
+      });
+    });
+  }
+
   return (
-    <>
-    <Header />
-    {notes.map(noteItems =>
-        <Note
-          key = {noteItems.key}
-          title = {noteItems.title}
-          content = {noteItems.content}
-        />
-    )}
-    <Footer />
-    </>
+    <div>
+      <Header />
+      <CreateArea onAdd={addNote} />
+      {notes.map((noteItem, index) => {
+        return (
+          <Note
+            key={index}
+            id={index}
+            title={noteItem.title}
+            content={noteItem.content}
+            onDelete={deleteNote}
+          />
+        );
+      })}
+      <Footer />
+    </div>
   );
 }
 
